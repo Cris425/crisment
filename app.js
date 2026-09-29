@@ -4,7 +4,7 @@
   var STORAGE_KEY = 'protocolo-jane-app-v1';
   var XP_LARGA = 20, XP_RAPIDA = 10;
 
-  var state = { checks:{}, sessionDates:{}, dismissedInstall:false };
+  var state = { checks:{}, sessionDates:{}, dismissedInstall:false, exerciseAnswers:{} };
   try {
     var raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
@@ -12,6 +12,7 @@
       state.checks = loaded.checks || {};
       state.sessionDates = loaded.sessionDates || {};
       state.dismissedInstall = !!loaded.dismissedInstall;
+      state.exerciseAnswers = loaded.exerciseAnswers || {};
     }
   } catch(e){}
 
@@ -282,6 +283,97 @@
     return s;
   }
 
+  // ---------- Exercises (quiz + Claude-correction) ----------
+  // App-only content: not derived from data.js. Quizzes are strictly grounded in
+  // facts already stated elsewhere in the app's own content (objectivity table,
+  // "Cómo hacerlo" sections) since there's no access to Cris's private source material.
+  var EXERCISES = {
+    'day-n1-s1d1': {
+      type:'quiz',
+      question:'¿Cuál de estas frases es un HECHO objetivo, no una interpretación?',
+      options:[
+        'Parece una persona muy elegante',
+        'Zapatos de piel con desgaste exclusivo en el tacón derecho',
+        'Está ocultando algo, se le nota',
+        'No le importa nada su aspecto'
+      ],
+      correct:1,
+      explanation:'Un hecho objetivo es algo que cualquiera podría verificar con solo mirar: material, desgaste, ubicación exacta de una marca. Las otras tres frases son juicios sobre lo que esa persona "es" o "siente", no lo que realmente se observa — son justo lo que el filtro de objetividad te enseña a detectar.'
+    },
+    'day-n1-s1d2': {
+      type:'claude',
+      label:'Pega aquí algunos de los hechos que anotaste sobre las 2 personas del vídeo (no hace falta los 20, con 8-10 vale).',
+      placeholder:'Ej: reloj metálico en la muñeca izquierda, suela de la zapatilla derecha más desgastada...',
+      template:'Estoy entrenando observación para el Protocolo Jane (un método de mentalismo y lectura fría basado en hechos objetivos, deducción y trabajo de memoria). Revisa esta lista de observaciones que anoté sobre dos personas en un vídeo. Para cada línea dime si es (a) un HECHO objetivo y verificable, (b) una deducción razonable a partir de un hecho, o (c) una interpretación/juicio subjetivo disfrazado de hecho. Si es (c), dime de qué hecho objetivo debería partir y cómo reformularla. Sé breve y directo.\n\nMis observaciones:\n{{answer}}'
+    },
+    'day-n1-s2d2': {
+      type:'claude',
+      label:'Pega aquí lo que anotaste durante tu escaneo de 6 segundos de la cámara EarthCam.',
+      placeholder:'Ej: 3 personas cruzando, una con paraguas rojo, un coche parado en doble fila...',
+      template:'Estoy entrenando observación rápida para el Protocolo Jane. Estas son las notas que tomé tras un escaneo de solo 6 segundos de una cámara en directo (EarthCam). Revísalas y dime: ¿cuántas son hechos objetivos concretos frente a impresiones vagas o genéricas? ¿Qué 2-3 detalles debería haber captado y probablemente se me pasaron dado el tiempo tan corto? Sé breve y directo.\n\nMis notas:\n{{answer}}'
+    },
+    'day-n1-s3d2': {
+      type:'claude',
+      label:'Pega aquí tus deducciones sobre los objetos del juego de Kim (qué dedujiste de cada uno y por qué).',
+      placeholder:'Ej: llavero con 4 llaves distintas → probablemente vive con más gente o tiene coche y trastero...',
+      template:'Estoy entrenando deducción para el Protocolo Jane, usando el juego de Kim (memorizar y deducir a partir de un grupo de objetos). Revisa mis deducciones: para cada una, dime si estoy siendo excesivamente confiado (afirmando una sola explicación cuando hay varias igual de plausibles) y, si es así, sugiere al menos una hipótesis alternativa igual de válida que no consideré. Sé breve y directo.\n\nMis deducciones:\n{{answer}}'
+    },
+    'day-n1-s4d2': {
+      type:'claude',
+      label:'Pega aquí la transcripción de tu narración en voz alta (lo que dijiste mientras observabas).',
+      placeholder:'Ej: "Veo a un hombre con chaqueta gris, parece cansado, seguro que viene de currar..."',
+      template:'Esto es una transcripción de una narración en voz alta que hice mientras observaba una escena, como ejercicio del Protocolo Jane. Señálame qué frases son en realidad interpretaciones o juicios subjetivos disfrazados de observación objetiva (aunque suenen a hecho), y para cada una dime cuál sería la versión puramente objetiva. Sé breve y directo.\n\nMi narración:\n{{answer}}'
+    },
+    'day-n2-s1d1': {
+      type:'claude',
+      label:'Escribe las 3 señales de sinceridad y las 3 señales de incomodidad que identificaste, con el contexto de dónde las viste.',
+      placeholder:'Sinceridad: 1) ... 2) ... 3) ...\nIncomodidad: 1) ... 2) ... 3) ...',
+      template:'Estoy entrenando lectura de lenguaje no verbal para el Protocolo Jane, siguiendo el enfoque de Joe Navarro (grupos de señales y contexto, nunca un gesto aislado). Revisa mis 6 señales (3 de sinceridad, 3 de incomodidad): dime si alguna la estoy interpretando como aislada en vez de como parte de un conjunto de señales + contexto, y si el razonamiento que doy es sólido o demasiado precipitado. Sé breve y directo.\n\nMis señales:\n{{answer}}'
+    },
+    'day-n2-s1d2': {
+      type:'quiz',
+      question:'Cuando los pies de alguien apuntan hacia la puerta durante una conversación, ¿qué suele indicar?',
+      options:[
+        'Que tiene frío en los pies',
+        'Que inconscientemente quiere marcharse de la conversación',
+        'Que está mintiendo con seguridad',
+        'Nada, los pies no comunican nada relevante'
+      ],
+      correct:1,
+      explanation:'Los pies son una de las zonas del cuerpo con menos control consciente: suelen apuntar hacia donde la persona "quiere ir", física o mentalmente. No es prueba de mentira ni un dato aislado — es una señal de interés o desinterés que hay que leer junto con el resto del cuerpo.'
+    },
+    'day-n2-s2d1': {
+      type:'quiz',
+      question:'¿Cuál de estas NO es uno de los comportamientos pacificadores típicos?',
+      options:[
+        'Tocarse el cuello o la nuca',
+        'Ajustarse la ropa o el reloj',
+        'Sonreír ampliamente y mantener la mirada relajada',
+        'Frotarse los dedos o entrelazar las manos'
+      ],
+      correct:2,
+      explanation:'Los pacificadores son gestos de autocalmarse ante el estrés: tocarse el cuello, ajustar ropa, frotarse las manos o la cara. Una sonrisa amplia con mirada relajada es justo lo contrario — una señal de comodidad, no de descarga de tensión.'
+    },
+    'day-n2-s2d2': {
+      type:'claude',
+      label:'Describe los 3 pacificadores que identificaste en tus vídeos y en qué momento exacto aparecieron.',
+      placeholder:'Ej: minuto 1:20, se toca el cuello justo después de que le hacen una pregunta directa...',
+      template:'Estoy entrenando la detección de pacificadores (gestos de autocalmarse) para el Protocolo Jane. Revisa los 3 que identifiqué: dime si realmente son pacificadores o podrían tener otra explicación más simple (picor, costumbre, frío), y si el momento en que aparecen sugiere que están ligados a algo concreto de la conversación o no. Sé breve y directo.\n\nMis pacificadores:\n{{answer}}'
+    },
+    'day-n2-s3d2': {
+      type:'claude',
+      label:'Escribe las emociones que crees haber visto en el vídeo sin sonido y en qué gesto o expresión concreta te basaste para cada una.',
+      placeholder:'Ej: sorpresa, minuto 0:40, cejas elevadas y boca ligeramente abierta...',
+      template:'Estoy entrenando lectura de microexpresiones y emociones básicas para el Protocolo Jane, viendo vídeo sin sonido. Revisa mis etiquetas de emoción: para cada una dime si la expresión que describo es realmente característica de esa emoción o si podría confundirse fácilmente con otra parecida. Sé breve y directo.\n\nMis observaciones:\n{{answer}}'
+    },
+    'day-n2-s4d2': {
+      type:'claude',
+      label:'Describe la línea base de comportamiento que observaste al principio y qué desviaciones notaste después.',
+      placeholder:'Línea base: hablaba pausado, manos quietas sobre la mesa...\nDesviación: al mencionar el tema X, empezó a hablar más rápido y...',
+      template:'Estoy entrenando el método de línea base + desviación (baseline) para el Protocolo Jane: observar cómo se comporta alguien en reposo y luego detectar cambios significativos cuando cambia el tema o el contexto. Revisa mi línea base y mis desviaciones: dime si la desviación que describo es realmente un cambio respecto a la línea base que definí, o si en realidad no aporté suficiente línea base como para poder comparar con rigor. Sé breve y directo.\n\nMi observación:\n{{answer}}'
+    }
+  };
+
   // ---------- Lesson flow ----------
   var lessonEl, lessonBody, lessonProgress, lessonBottom, lessonTagPill;
   var currentLesson = null; // {levelIndex, session, screens:[], idx}
@@ -290,6 +382,9 @@
     var lvl = D.levels[levelIndex];
     var screens = [];
     screens.push({ type:'brief', session:session, lvl:lvl });
+    if (EXERCISES[session.id]) {
+      screens.push({ type:'exercise', session:session, ex:EXERCISES[session.id] });
+    }
     // attach simcard on the last session of a level that has one
     var isLastOfLevel = lvl.sessions[lvl.sessions.length-1].id === session.id;
     if (isLastOfLevel && lvl.simcards && lvl.simcards.length) {
@@ -367,6 +462,25 @@
       html += '<div class="lesson-subsection"><div class="lesson-kicker sub"><span class="lk-ico">🏛️</span>Palacio de la memoria · ~15 min</div>';
       html += '<div class="lesson-box memoria"><div class="lesson-text">'+scr.session.memoria+'</div></div></div>';
       html += '</div>';
+    } else if (scr.type === 'exercise' && scr.ex.type === 'quiz') {
+      html += '<div class="lesson-card exbox">';
+      html += '<div class="lesson-kicker"><span class="lk-ico">🧠</span>Ejercicio rápido</div>';
+      html += '<div class="lesson-title" style="font-size:1.15rem;">'+esc(scr.ex.question)+'</div>';
+      html += '<div class="quiz-options" id="quizOptions">';
+      scr.ex.options.forEach(function(opt, oi){
+        html += '<button class="quiz-opt" data-oi="'+oi+'">'+esc(opt)+'</button>';
+      });
+      html += '</div>';
+      html += '<div class="quiz-feedback" id="quizFeedback"></div>';
+      html += '</div>';
+    } else if (scr.type === 'exercise' && scr.ex.type === 'claude') {
+      var savedAnswer = state.exerciseAnswers[scr.session.id] || '';
+      html += '<div class="lesson-card exbox">';
+      html += '<div class="lesson-kicker"><span class="lk-ico">✍️</span>Ejercicio con corrección</div>';
+      html += '<div class="lesson-text" style="margin-bottom:12px;">'+esc(scr.ex.label)+'</div>';
+      html += '<textarea id="exAnswerText" class="ex-textarea" placeholder="'+esc(scr.ex.placeholder||'Escribe aquí...')+'">'+esc(savedAnswer)+'</textarea>';
+      html += '<button class="copy-btn" id="copyExBtn">📋 Copiar para pedir corrección a Claude</button>';
+      html += '</div>';
     } else if (scr.type === 'sim') {
       html += '<div class="lesson-card simbox"><div class="lesson-kicker"><span class="lk-ico">🎭</span>'+esc(scr.sim.eyebrow)+'</div>';
       html += '<div class="lesson-title" style="font-size:1.15rem;">'+esc(scr.sim.title)+'</div>';
@@ -394,6 +508,42 @@
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(txt).then(done).catch(function(){ fallbackCopy(txt); done(); });
         } else { fallbackCopy(txt); done(); }
+      });
+    }
+
+    if (scr.type === 'exercise' && scr.ex.type === 'quiz') {
+      var quizAnswered = false;
+      document.querySelectorAll('.quiz-opt').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          if (quizAnswered) return;
+          quizAnswered = true;
+          var oi = parseInt(btn.getAttribute('data-oi'),10);
+          document.querySelectorAll('.quiz-opt').forEach(function(b2, i2){
+            b2.classList.add('locked');
+            if (i2 === scr.ex.correct) b2.classList.add('correct');
+            else if (i2 === oi) b2.classList.add('incorrect');
+          });
+          var fb = document.getElementById('quizFeedback');
+          fb.classList.add('show', oi === scr.ex.correct ? 'ok' : 'bad');
+          fb.innerHTML = '<strong>'+(oi === scr.ex.correct ? '¡Exacto! ' : 'No exactamente. ')+'</strong>'+esc(scr.ex.explanation);
+        });
+      });
+    }
+
+    if (scr.type === 'exercise' && scr.ex.type === 'claude') {
+      var exTa = document.getElementById('exAnswerText');
+      exTa.addEventListener('input', function(){
+        state.exerciseAnswers[scr.session.id] = exTa.value;
+        save();
+      });
+      document.getElementById('copyExBtn').addEventListener('click', function(){
+        var val = exTa.value.trim();
+        var txt = scr.ex.template.replace('{{answer}}', val || '(no escribí nada todavía)');
+        var btn = this;
+        var doneFn = function(){ btn.classList.add('copied'); btn.textContent = '✓ Copiado'; setTimeout(function(){ btn.classList.remove('copied'); btn.textContent='📋 Copiar para pedir corrección a Claude'; },1800); };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(doneFn).catch(function(){ fallbackCopy(txt); doneFn(); });
+        } else { fallbackCopy(txt); doneFn(); }
       });
     }
 
