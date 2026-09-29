@@ -451,6 +451,7 @@
   function isIOS(){
     return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
   }
+  var installAutoHideTimer = null;
   function showInstallToast(iosMode){
     var t = document.getElementById('installToast');
     if (!t) return;
@@ -459,10 +460,15 @@
       : '<strong>Instala Protocolo Jane</strong>Acésalo como una app, sin barra de navegador.';
     document.getElementById('installGoBtn').style.display = iosMode ? 'none' : '';
     t.classList.add('show');
+    // safety net: auto-hide after a few seconds no matter what, in case taps don't register
+    // on this device (it will simply try again next time the app is opened)
+    if (installAutoHideTimer) clearTimeout(installAutoHideTimer);
+    installAutoHideTimer = setTimeout(hideInstallToast, 9000);
   }
   function hideInstallToast(){
     var t = document.getElementById('installToast');
     if (t) t.classList.remove('show');
+    if (installAutoHideTimer) { clearTimeout(installAutoHideTimer); installAutoHideTimer = null; }
   }
 
   // ---------- Init ----------
@@ -479,14 +485,22 @@
       document.getElementById('tab-'+t).addEventListener('click', function(){ showTab(t); });
     });
 
-    document.getElementById('installGoBtn').addEventListener('click', function(){
-      hideInstallToast();
-      if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ deferredPrompt = null; }); }
-    });
-    document.getElementById('installXBtn').addEventListener('click', function(){
+    function dismissInstallToast(){
       hideInstallToast();
       state.dismissedInstall = true; save();
+    }
+    document.getElementById('installGoBtn').addEventListener('click', function(e){
+      e.stopPropagation();
+      hideInstallToast();
+      if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function(){ deferredPrompt = null; }); }
+      else { state.dismissedInstall = true; save(); }
     });
+    document.getElementById('installXBtn').addEventListener('click', function(e){
+      e.stopPropagation();
+      dismissInstallToast();
+    });
+    // whole bar is also tappable to dismiss, in case the small X is hard to hit precisely on some phones
+    document.getElementById('installToast').addEventListener('click', dismissInstallToast);
 
     renderAll();
     showTab('camino');

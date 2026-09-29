@@ -335,10 +335,10 @@ ul.ethics li strong{color:var(--text);}
 
 /* onboarding install hint */
 .install-toast{
-  position:fixed; left:16px; right:16px; bottom:calc(84px + var(--safe-bottom)); z-index:40; background:var(--brand-strong); color:#fff;
+  position:fixed; left:16px; right:16px; bottom:calc(90px + max(var(--safe-bottom), 10px)); z-index:40; background:var(--brand-strong); color:#fff;
   border-radius:14px; padding:13px 16px; display:flex; align-items:center; gap:12px; box-shadow:0 10px 30px -10px rgba(0,0,0,.4);
   max-width:600px; margin:0 auto; transform:translateY(calc(100% + 40px)); transition:transform .35s ease;
-  pointer-events:none;
+  pointer-events:none; cursor:pointer;
 }
 .install-toast.show{transform:translateY(0); pointer-events:auto;}
 .install-toast p{font-size:12.5px; line-height:1.4; flex:1;}
