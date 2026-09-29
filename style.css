@@ -337,10 +337,10 @@ ul.ethics li strong{color:var(--text);}
 .install-toast{
   position:fixed; left:16px; right:16px; bottom:calc(90px + max(var(--safe-bottom), 10px)); z-index:40; background:var(--brand-strong); color:#fff;
   border-radius:14px; padding:13px 16px; display:flex; align-items:center; gap:12px; box-shadow:0 10px 30px -10px rgba(0,0,0,.4);
-  max-width:600px; margin:0 auto; transform:translateY(calc(100% + 40px)); transition:transform .35s ease;
-  pointer-events:none; cursor:pointer;
+  max-width:600px; margin:0 auto; transition:opacity .3s ease;
+  opacity:0; pointer-events:none; cursor:pointer; visibility:hidden;
 }
-.install-toast.show{transform:translateY(0); pointer-events:auto;}
+.install-toast.show{opacity:1; pointer-events:auto; visibility:visible;}
 .install-toast p{font-size:12.5px; line-height:1.4; flex:1;}
 .install-toast strong{display:block; font-size:13.5px; margin-bottom:2px;}
 .install-toast button.install-go{background:#fff; color:var(--brand-strong); font-weight:800; font-size:12px; padding:8px 12px; border-radius:9px; flex:none;}
