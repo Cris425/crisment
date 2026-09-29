@@ -143,7 +143,7 @@
         pathHtml += '<div class="node-tag">'+(s.tag==='Larga'?'Larga':'Rápida')+'</div>';
         pathHtml += '</div>';
         pathHtml += '</div>';
-        if (si < lvl.sessions.length-1) pathHtml += '<div class="path-row align-c"><div class="node-connector"></div></div>';
+        if (si < lvl.sessions.length-1) pathHtml += '<div class="path-row align-c"><div class="node-connector'+(isDone?' done':'')+'"></div></div>';
       });
 
       if (lvl.checklist && lvl.checklist.length) {
@@ -378,10 +378,10 @@
     } else if (scr.type === 'done') {
       var already = !!state.checks[scr.session.id];
       html += '<div class="lesson-done-wrap">';
-      html += '<div class="lesson-done-emoji">'+(already?'✅':'🎉')+'</div>';
-      html += '<h2>'+(already ? 'Ya la tenías marcada' : '¡Sesión lista!')+'</h2>';
-      html += '<p>'+esc(scr.session.label)+' — '+esc(currentLesson.lvl.name)+'</p>';
-      if (!already) html += '<div class="lesson-xp-chip">+'+(scr.session.tag==='Larga'?XP_LARGA:XP_RAPIDA)+' XP</div>';
+      html += '<div class="lesson-done-emoji pop-in">'+(already?'✅':'🎉')+'</div>';
+      html += '<h2 class="fade-in-1">'+(already ? 'Ya la tenías marcada' : '¡Sesión lista!')+'</h2>';
+      html += '<p class="fade-in-2">'+esc(scr.session.label)+' — '+esc(currentLesson.lvl.name)+'</p>';
+      if (!already) html += '<div class="lesson-xp-chip fade-in-3">+'+(scr.session.tag==='Larga'?XP_LARGA:XP_RAPIDA)+' XP</div>';
       html += '</div>';
     }
 
