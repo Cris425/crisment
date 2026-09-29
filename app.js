@@ -371,6 +371,209 @@
       label:'Describe la línea base de comportamiento que observaste al principio y qué desviaciones notaste después.',
       placeholder:'Línea base: hablaba pausado, manos quietas sobre la mesa...\nDesviación: al mencionar el tema X, empezó a hablar más rápido y...',
       template:'Estoy entrenando el método de línea base + desviación (baseline) para el Protocolo Jane: observar cómo se comporta alguien en reposo y luego detectar cambios significativos cuando cambia el tema o el contexto. Revisa mi línea base y mis desviaciones: dime si la desviación que describo es realmente un cambio respecto a la línea base que definí, o si en realidad no aporté suficiente línea base como para poder comparar con rigor. Sé breve y directo.\n\nMi observación:\n{{answer}}'
+    },
+    // --- Nivel 3: Estructura de Lectura en Frío ---
+    'day-n3-s1d1': {
+      type:'claude',
+      label:'Pega aquí 3 o 4 de tus frases Barnum (no hace falta las 10 completas).',
+      placeholder:'Ej: "A veces te muestras muy seguro de ti mismo, pero también hay una parte que duda cuando de verdad importa."',
+      template:'Estoy entrenando afirmaciones tipo Barnum (frases genéricas que casi cualquiera sentiría como personales) para el Protocolo Jane, usando esta plantilla: «A veces [rasgo], aunque también hay momentos en que [rasgo opuesto] — sobre todo cuando [situación vaga]». Revisa mis frases: dime si alguna suena demasiado específica (dejaría de aplicar a la mayoría de la gente) o si se nota demasiado el molde y hay que suavizarlo. Sé breve y directo.\n\nMis frases:\n{{answer}}'
+    },
+    'day-n3-s2d1': {
+      type:'quiz',
+      question:'¿En qué consiste la Treta Arcoíris (Rainbow Ruse)?',
+      options:[
+        'En decir una frase Barnum y su contrario a la vez, para observar cuál valida más la otra persona',
+        'En repetir la misma frase varias veces hasta que la persona la acepte',
+        'En hacer solo preguntas cerradas de sí o no',
+        'En hablar muy rápido para que no se note la frase genérica'
+      ],
+      correct:0,
+      explanation:'La Treta Arcoíris afirma un rasgo y su opuesto en la misma frase («a veces eres sociable, pero también necesitas tu espacio»): sea cual sea la reacción de la otra persona, siempre validará una de las dos mitades — y esa reacción es la pista que usas para seguir bifurcando la lectura.'
+    },
+    'day-n3-s3d1': {
+      type:'claude',
+      label:'Pega aquí el guion de tu mini-lectura de 2 minutos.',
+      placeholder:'1) Frase Barnum de apertura...\n2) Treta Arcoíris sobre...\n3) Pregunta abierta...\n4) Cierre...',
+      template:'Estoy escribiendo el guion de una mini-lectura fría de 2 minutos para el Protocolo Jane, con esta estructura: 1) frase Barnum de apertura, 2) Treta Arcoíris sobre un tema emocional, 3) pregunta abierta para que la otra persona aporte información real, 4) cierre que suene específico usando lo que me acaba de decir. Revisa mi guion: dime si cada parte cumple su función, y si el cierre realmente conecta con la pregunta o suena genérico y desconectado. Sé breve y directo.\n\nMi guion:\n{{answer}}'
+    },
+    // --- Nivel 4: Lógica Inversa y Deducción ---
+    'day-n4-s1d2': {
+      type:'claude',
+      label:'Describe qué notaste hoy en el ejercicio 5-4-3-2-1 (qué viste, oíste, tocaste, oliste y saboreaste).',
+      placeholder:'5 que veo: ...\n4 que oigo: ...\n3 que toco: ...\n2 que huelo: ...\n1 que saboreo: ...',
+      template:'Estoy practicando el anclaje sensorial 5-4-3-2-1 (5 cosas que veo, 4 que oigo, 3 que toco, 2 que huelo, 1 que saboreo) para entrenar atención plena, dentro del Protocolo Jane. Revisa mi lista: dime si son detalles concretos y específicos o descripciones genéricas que podría haber escrito sin prestar atención de verdad, y qué categoría se me quedó más floja. Sé breve y directo.\n\nMi lista de hoy:\n{{answer}}'
+    },
+    'day-n4-s2d1': {
+      type:'quiz',
+      question:'Según el método de hipótesis múltiples de Holmes, ¿qué deberías hacer antes de decidirte por una explicación?',
+      options:[
+        'Elegir la primera explicación que se te ocurra, es la más honesta',
+        'Generar al menos 3 explicaciones posibles y compararlas',
+        'Preguntar directamente a la persona qué le pasó',
+        'Descartar cualquier explicación poco dramática'
+      ],
+      correct:1,
+      explanation:'El método consiste en generar 3 explicaciones plausibles antes de fijarte en una — como las manchas de barro que podrían ser una excursión, jardinería o una acera rota. La primera idea que se nos ocurre suele ser la más sesgada, no la más probable.'
+    },
+    'day-n4-s2d2': {
+      type:'claude',
+      label:'Pega tus 3 objetos (o fotos) y las 3 hipótesis que generaste para cada uno.',
+      placeholder:'Objeto 1: mochila desgastada → hipótesis A, B, C...',
+      template:'Estoy entrenando el método de hipótesis múltiples (generar 3 explicaciones antes de decidirme por una) para el Protocolo Jane. Revisa mis hipótesis para cada objeto: dime si las 3 son realmente distintas entre sí o si en el fondo son variaciones de la misma idea, y si me quedé enganchado a la explicación más obvia (sesgo de confirmación) en vez de considerar alternativas igual de plausibles. Sé breve y directo.\n\nMis objetos e hipótesis:\n{{answer}}'
+    },
+    'day-n4-s3d1': {
+      type:'quiz',
+      question:"¿Cuál de estas describe mejor el 'cerebro de Holmes' frente al 'cerebro de Watson'?",
+      options:[
+        'Watson observa activamente y descarta lo irrelevante; Holmes solo mira sin analizar',
+        'Holmes observa activamente comparando cada dato con lo que ya sabe; Watson ve pero no conecta la información',
+        'No hay diferencia real entre los dos, es solo una forma de hablar',
+        'Holmes memoriza más datos que Watson, pero razona igual de mal'
+      ],
+      correct:1,
+      explanation:"El 'cerebro de Watson' registra datos sin conectarlos entre sí; el 'cerebro de Holmes' observa de forma activa, comparando cada dato nuevo con lo que ya sabe y descartando lo irrelevante. La diferencia no es cuánto ves, sino cuánto analizas lo que ves."
+    },
+    'day-n4-s3d2': {
+      type:'claude',
+      label:'Describe el sesgo cognitivo que detectaste hoy en tu propia deducción (confirmación, anclaje o disponibilidad) y en qué situación pasó.',
+      placeholder:'Ej: hoy asumí que mi compañero llegaba tarde por pereza, y luego resultó que había tenido un problema de transporte...',
+      template:'Estoy entrenando la detección de sesgos cognitivos propios (confirmación, anclaje, disponibilidad) para el Protocolo Jane. Revisa la situación que describo: dime qué sesgo concreto encaja mejor con lo que cuento y si mi propia explicación del sesgo es precisa o si en realidad estoy describiendo otra cosa. Sé breve y directo.\n\nMi situación:\n{{answer}}'
+    },
+    'day-n4-s4d2': {
+      type:'claude',
+      label:'Describe los 3 objetos que usaste, la historia que construiste a partir de ellos, y si se confirmó al preguntar.',
+      placeholder:'Objetos: ...\nHistoria que deduje: ...\n¿Se confirmó?: ...',
+      template:'Este es el ejercicio de hito del nivel de deducción del Protocolo Jane: construir una historia coherente a partir de 3 objetos reales y verificarla preguntando. Revisa mi cadena de deducción: dime si cada paso realmente se apoya en un objeto concreto (y no en una suposición general), y si el resultado confirma que mi razonamiento fue sólido o si acerté más por suerte que por lógica. Sé breve y directo.\n\nMi deducción:\n{{answer}}'
+    },
+    // --- Nivel 5: Persuasión y Palancas Cognitivas ---
+    'day-n5-s1d1': {
+      type:'quiz',
+      question:'¿Cuál de estos es un ejemplo de RECIPROCIDAD (y no de compromiso/coherencia)?',
+      options:[
+        'Una tienda te da una muestra gratis y sientes más ganas de comprar algo',
+        'Dices en voz alta un objetivo delante de alguien y luego te esfuerzas por cumplirlo',
+        'Copias lo que hace la mayoría de la gente en una situación ambigua',
+        'Sigues el consejo de alguien con bata blanca sin cuestionarlo'
+      ],
+      correct:0,
+      explanation:'La reciprocidad es devolver un favor recibido, por pequeño que sea — la muestra gratis. La opción 2 es compromiso/coherencia (actuar según lo que ya dijiste en público), la 3 es prueba social, y la 4 es autoridad.'
+    },
+    'day-n5-s1d2': {
+      type:'claude',
+      label:'Pega aquí el mensaje que redactaste aplicando reciprocidad.',
+      placeholder:'Ej: Hola [nombre], te he preparado una revisión rápida gratuita de...',
+      template:'Estoy escribiendo un mensaje que aplica el principio de reciprocidad de Cialdini de forma ética (ofrecer algo de valor real antes de pedir nada a cambio), para un contexto de cliente freelance en el Protocolo Jane. Revisa mi mensaje: dime si el "regalo" que ofrezco suena genuino o interesado/manipulador, y si hay alguna frase que presione demasiado en vez de dejar la reciprocidad fluir de forma natural. Sé breve y directo.\n\nMi mensaje:\n{{answer}}'
+    },
+    'day-n5-s2d1': {
+      type:'quiz',
+      question:'¿Cuál de estos es un ejemplo de AUTORIDAD (y no de prueba social)?',
+      options:[
+        'Comprar el producto "más vendido" de una lista',
+        'Hacer cola porque hay mucha gente esperando',
+        'Seguir el consejo de alguien porque lleva bata blanca o tiene un título',
+        'Leer muchas reseñas antes de decidir'
+      ],
+      correct:2,
+      explanation:'La autoridad se basa en símbolos de estatus o conocimiento (bata blanca, título, cargo) que nos hacen seguir a alguien con menos cuestionamiento. Las otras tres opciones son prueba social: copiar lo que hace la mayoría en una situación ambigua.'
+    },
+    'day-n5-s2d2': {
+      type:'claude',
+      label:'Pega los 3 ejemplos de publicidad o redes que identificaste, y qué principio de Cialdini usa cada uno.',
+      placeholder:'1) Anuncio de ... → principio: ...\n2) ...\n3) ...',
+      template:'Estoy identificando principios de persuasión de Cialdini (reciprocidad, compromiso, prueba social, autoridad, simpatía, escasez) en publicidad y redes reales, para el Protocolo Jane. Revisa mis 3 ejemplos: dime si el principio que le asigné a cada uno es el correcto o si en realidad está usando otro distinto (o varios a la vez). Sé breve y directo.\n\nMis ejemplos:\n{{answer}}'
+    },
+    'day-n5-s3d1': {
+      type:'claude',
+      label:'Pega tu guion de persuasión ética de 60 segundos.',
+      placeholder:'Ej: Solo tengo 2 huecos esta semana, y la mayoría de mis clientes repiten...',
+      template:'Estoy escribiendo un guion de persuasión ética de 60 segundos para el Protocolo Jane, usando 1 o 2 principios de Cialdini como máximo (mezclar los 6 suena forzado). Revisa mi guion: dime cuántos principios distintos estoy usando en realidad, si se sienten naturales o forzados, y si hay alguna frase que cruce la línea de presión excesiva en vez de persuasión honesta. Sé breve y directo.\n\nMi guion:\n{{answer}}'
+    },
+    // --- Nivel 6: Sugestión y Forzado Psicológico ---
+    'day-n6-s1d1': {
+      type:'quiz',
+      question:'¿Qué diferencia al mirroring (reflejo corporal y vocal) de la simple imitación?',
+      options:[
+        'El mirroring copia a la otra persona de forma obvia y exagerada',
+        'El mirroring iguala sutilmente ritmo, volumen o postura, sin que se note como una copia',
+        'No hay ninguna diferencia real, son la misma técnica',
+        'El mirroring solo funciona con la voz, nunca con el cuerpo'
+      ],
+      correct:1,
+      explanation:"El mirroring busca acercarte sutilmente a la 'frecuencia' de la otra persona (ritmo de habla, volumen, postura, gestos) para generar comodidad inconsciente. La imitación evidente hace justo lo contrario: genera rechazo porque se percibe como una copia deliberada."
+    },
+    'day-n6-s2d1': {
+      type:'quiz',
+      question:'¿Qué es una presuposición, tal como se explica en este nivel?',
+      options:[
+        'Una pregunta directa de sí o no',
+        'Algo que la frase da por hecho de forma implícita, sin decirlo directamente',
+        'Una orden disfrazada de pregunta',
+        'Una frase que repite literalmente lo que dijo la otra persona'
+      ],
+      correct:1,
+      explanation:'Una presuposición da por hecho algo dentro de la propia frase sin afirmarlo directamente — «cuando decidas cuál prefieres» da por hecho que vas a decidir, no si vas a decidir. La otra persona tiene que aceptar ese hecho implícito para poder responder.'
+    },
+    'day-n6-s2d2': {
+      type:'claude',
+      label:'Pega tus 5 frases con presuposiciones.',
+      placeholder:'Ej: "Cuando decidas cuál prefieres, dímelo..."',
+      template:'Estoy construyendo frases con presuposiciones (dar algo por hecho dentro de la frase, sin decirlo directamente) para el Protocolo Jane. Revisa mis 5 frases: dime cuáles realmente presuponen algo implícito y cuáles en realidad son solo preguntas directas disfrazadas, y sugiere cómo reforzar las que se queden cortas. Sé breve y directo.\n\nMis frases:\n{{answer}}'
+    },
+    'day-n6-s3d1': {
+      type:'quiz',
+      question:'¿En qué consiste el priming, tal como se explica aquí?',
+      options:[
+        'En decirle a alguien exactamente qué pensar sobre un tema',
+        'En sembrar una palabra o idea de forma neutra para que reaparezca espontáneamente más tarde en lo que dice la otra persona',
+        'En repetir la misma pregunta varias veces hasta obtener la respuesta que buscas',
+        'En hablar de un tema completamente distinto para despistar'
+      ],
+      correct:1,
+      explanation:"El priming consiste en sembrar una idea o palabra de forma neutra al principio de la conversación (por ejemplo, mencionar 'el mar' varias veces) para que reaparezca de forma espontánea más tarde, sin que la otra persona note la conexión."
+    },
+    'day-n6-s3d2': {
+      type:'claude',
+      label:'Describe qué palabra o idea sembraste, y si reapareció más tarde en la conversación sin que tú la reintrodujeras.',
+      placeholder:'Sembré: ...\n¿Reapareció?: ...\nEn qué momento: ...',
+      template:'Estoy practicando priming conversacional (sembrar una idea neutra para ver si reaparece espontáneamente más tarde) para el Protocolo Jane. Revisa mi caso: dime si lo que describo es realmente una prueba de que el priming funcionó, o si podría explicarse igual de bien por casualidad o porque el tema surgía de forma natural en esa conversación de todos modos. Sé breve y directo.\n\nMi caso:\n{{answer}}'
+    },
+    'day-n6-s4d1': {
+      type:'claude',
+      label:'Pega los 2-3 patrones de forzado que elegiste, cada uno con un ejemplo de frase real que usarías.',
+      placeholder:'Patrón 1: ... → frase: ...\nPatrón 2: ...',
+      template:'Estoy eligiendo patrones de forzado psicológico (guiar una elección entre opciones sin que se note) para mi rutina del Protocolo Jane. Revisa mis patrones y frases: dime si suenan naturales en una conversación real o si se nota demasiado el truco, y si alguno cruza la línea de manipulación en vez de quedarse en persuasión/juego aceptado por la otra persona. Sé breve y directo.\n\nMis patrones:\n{{answer}}'
+    },
+    'day-n6-s5d1': {
+      type:'claude',
+      label:'Escribe con tus propias palabras dónde trazas tú la línea entre persuasión ética y manipulación, aplicado a lo que has practicado en este nivel (mirroring, presuposiciones, priming, forzado).',
+      placeholder:'Para mí la línea está en...',
+      template:'Como cierre del nivel más delicado del Protocolo Jane (mirroring, presuposiciones, priming, forzado), estoy escribiendo dónde trazo la línea entre persuasión ética y manipulación. Lee mi reflexión y dime si es honesta y específica, o si en algún punto suena a justificación genérica que no me comprometería realmente a cumplir. No hace falta que seas duro, pero sí sincero. Sé breve y directo.\n\nMi reflexión:\n{{answer}}'
+    },
+    // --- Nivel 7: Rutina de Mentalismo en Vivo ---
+    'day-n7-s1d2': {
+      type:'claude',
+      label:'Pega el esquema de tu rutina de 8-10 minutos (las 4 partes: observación, cold reading, forzado, cierre).',
+      placeholder:'1) Observación inicial: ...\n2) Cold reading: ...\n3) Forzado: ...\n4) Cierre: ...',
+      template:'Estoy estructurando mi rutina final de mentalismo de 8-10 minutos para el Protocolo Jane, con 4 partes: observación inicial, cold reading, forzado y cierre. Revisa mi esquema: dime si las 4 partes están bien equilibradas en tiempo y contenido, y si el cierre realmente conecta con lo que pasó antes o queda suelto. Sé breve y directo.\n\nMi esquema:\n{{answer}}'
+    },
+    'day-n7-s2d1': {
+      type:'claude',
+      label:'Tras ensayarla a solas y cronometrarla dos veces, ¿qué parte tuviste que recortar (si alguna) y por qué?',
+      placeholder:'Tiempo primera vez: ... min\nTiempo segunda vez: ... min\nQué recorté: ...',
+      template:'Acabo de ensayar mi rutina de mentalismo de 8-10 minutos para el Protocolo Jane, cronometrándola dos veces. Te cuento qué parte tuve que recortar (si alguna) y por qué. Dime si recortar esa parte concreta tiene sentido dado lo que hace cada bloque (observación, cold reading, forzado, cierre), o si sacrifiqué algo que debería haber conservado. Sé breve y directo.\n\nMi ensayo:\n{{answer}}'
+    },
+    'day-n7-s2d2': {
+      type:'claude',
+      label:'Pega el feedback que te dio la persona a la que hiciste la rutina (qué le sorprendió más, qué preguntó al final).',
+      placeholder:'Dijo que lo que más le sorprendió fue...',
+      template:'Acabo de hacer mi rutina completa de mentalismo a una persona real, como parte del Protocolo Jane, y esto es el feedback que me dio. Revísalo conmigo: dime qué me dice ese feedback sobre qué partes de la rutina funcionan bien y cuáles podrían necesitar trabajo, basándote solo en lo que cuento. Sé breve y directo.\n\nEl feedback que recibí:\n{{answer}}'
+    },
+    'day-n7-s3d1': {
+      type:'claude',
+      label:'Pega la parte de tu guion que sonó más forzada según el feedback, y cómo la has reescrito (antes y después).',
+      placeholder:'Antes: ...\nDespués: ...',
+      template:'Estoy reescribiendo la parte más floja de mi rutina de mentalismo (Protocolo Jane) según el feedback real que recibí. Te paso la versión antigua y la nueva juntas. Dime si la nueva versión resuelve de verdad el problema que señaló el feedback, o si sigue sonando forzada por otro motivo. Sé breve y directo.\n\n{{answer}}'
     }
   };
 
