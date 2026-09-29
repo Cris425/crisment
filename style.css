@@ -272,8 +272,9 @@ ul.ethics li strong{color:var(--text);}
 
 .lesson-body{flex:1; overflow-y:auto; padding:8px 22px 24px; display:flex; flex-direction:column; justify-content:flex-start;}
 .lesson-card{margin:0; padding:24px 0 20px; animation:cardIn .38s cubic-bezier(.2,.8,.3,1) both;}
-.lesson-card.short{margin:auto 0;}
 @keyframes cardIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+.lesson-subsection{margin-top:26px;}
+.lesson-kicker.sub{margin-bottom:9px;}
 @media (prefers-reduced-motion: reduce){.lesson-card{animation:none;}}
 .lesson-kicker{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--brand-strong); margin-bottom:10px; display:flex; align-items:center; gap:7px;}
 .lesson-kicker .lk-ico{font-size:14px;}

@@ -289,10 +289,7 @@
   function buildScreens(levelIndex, session){
     var lvl = D.levels[levelIndex];
     var screens = [];
-    screens.push({ type:'overview', session:session, lvl:lvl });
-    if (session.duracion) screens.push({ type:'duracion', text:session.duracion });
-    if (session.como) screens.push({ type:'como', text:session.como });
-    screens.push({ type:'memoria', text:session.memoria });
+    screens.push({ type:'brief', session:session, lvl:lvl });
     // attach simcard on the last session of a level that has one
     var isLastOfLevel = lvl.sessions[lvl.sessions.length-1].id === session.id;
     if (isLastOfLevel && lvl.simcards && lvl.simcards.length) {
@@ -350,7 +347,7 @@
     var nextLabel = 'Continuar';
     var showGhostSkip = false;
 
-    if (scr.type === 'overview') {
+    if (scr.type === 'brief') {
       html += '<div class="lesson-card">';
       html += '<div class="lesson-kicker"><span class="lk-ico">📍</span>'+esc(scr.lvl.cat)+' · '+esc(scr.lvl.name)+'</div>';
       html += '<div class="lesson-title">'+esc(scr.session.label)+'</div>';
@@ -358,16 +355,18 @@
       scr.session.steps.forEach(function(st){
         html += '<div class="lesson-step-item"><span class="step-tag '+(st.tag==='Ver'?'ver':'haz')+'">'+esc(st.tag)+'</span><span class="step-text">'+st.html+'</span></div>';
       });
-      html += '</div></div>';
-    } else if (scr.type === 'duracion') {
-      html += '<div class="lesson-card short"><div class="lesson-kicker"><span class="lk-ico">⏱️</span>Duración</div>';
-      html += '<div class="lesson-box"><div class="lesson-text">'+scr.text+'</div></div></div>';
-    } else if (scr.type === 'como') {
-      html += '<div class="lesson-card short"><div class="lesson-kicker"><span class="lk-ico">💡</span>Cómo hacerlo</div>';
-      html += '<div class="lesson-box"><div class="lesson-text">'+scr.text+'</div></div></div>';
-    } else if (scr.type === 'memoria') {
-      html += '<div class="lesson-card short"><div class="lesson-kicker"><span class="lk-ico">🏛️</span>Palacio de la memoria · ~15 min</div>';
-      html += '<div class="lesson-box memoria"><div class="lesson-text">'+scr.text+'</div></div></div>';
+      html += '</div>';
+      if (scr.session.duracion) {
+        html += '<div class="lesson-subsection"><div class="lesson-kicker sub"><span class="lk-ico">⏱️</span>Duración</div>';
+        html += '<div class="lesson-box"><div class="lesson-text">'+scr.session.duracion+'</div></div></div>';
+      }
+      if (scr.session.como) {
+        html += '<div class="lesson-subsection"><div class="lesson-kicker sub"><span class="lk-ico">💡</span>Cómo hacerlo</div>';
+        html += '<div class="lesson-box"><div class="lesson-text">'+scr.session.como+'</div></div></div>';
+      }
+      html += '<div class="lesson-subsection"><div class="lesson-kicker sub"><span class="lk-ico">🏛️</span>Palacio de la memoria · ~15 min</div>';
+      html += '<div class="lesson-box memoria"><div class="lesson-text">'+scr.session.memoria+'</div></div></div>';
+      html += '</div>';
     } else if (scr.type === 'sim') {
       html += '<div class="lesson-card simbox"><div class="lesson-kicker"><span class="lk-ico">🎭</span>'+esc(scr.sim.eyebrow)+'</div>';
       html += '<div class="lesson-title" style="font-size:1.15rem;">'+esc(scr.sim.title)+'</div>';
