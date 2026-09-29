@@ -1,0 +1,96 @@
+PROTOCOLO JANE — app instalable
+================================
+
+Qué es esta carpeta
+--------------------
+Es tu programa entero de mentalismo convertido en una app web instalable
+(PWA): un "camino" estilo Duolingo con tus 7 niveles y 52 sesiones, cada
+sesión como una lección guiada paso a paso, racha, XP, tu pista de memoria,
+la guía (hábitos + ética + maestría) y las simulaciones con Claude — todo
+con tu progreso guardado en el propio dispositivo y funcionando sin
+conexión una vez instalada.
+
+No es un archivo que abras con doble clic: son varios archivos que trabajan
+juntos, así que necesitan vivir en una dirección web (aunque sea gratis y
+solo para ti) para que "Instalar app" funcione de verdad. Sin ese paso, el
+navegador no te deja instalarla ni usarla sin internet.
+
+
+PASO 1 — Publícala gratis (2 minutos)
+--------------------------------------------------------------------------
+Dos opciones, elige una — el resultado es el mismo tipo de enlace:
+
+OPCIÓN A · Netlify Drop (la más rápida, sin cuenta obligatoria)
+1. Abre https://app.netlify.com/drop en tu ordenador.
+2. Arrastra esta carpeta completa (la que contiene index.html) a esa página.
+3. En unos segundos te da un enlace tipo https://algo-al-azar.netlify.app —
+   esa es tu app, ya en vivo.
+4. (Opcional) Si te creas una cuenta gratis en Netlify puedes ponerle un
+   nombre fijo al enlace y actualizarla más adelante sin perderlo. Sin
+   cuenta, el enlace funciona igual pero conviene guardarlo bien porque no
+   podrás volver a editarlo desde la web de Netlify.
+
+OPCIÓN B · Vercel (necesita cuenta gratis, sin tarjeta, y la terminal)
+1. Instala Node.js si no lo tienes ya (tú vienes de DAW, seguro que sí).
+2. Abre una terminal DENTRO de esta carpeta (la que contiene index.html).
+3. Ejecuta:  npx vercel
+4. La primera vez te pide iniciar sesión (te abre el navegador, login con
+   GitHub, GitLab, email o lo que prefieras — sigue siendo gratis).
+5. Te hace unas preguntas — para todas puedes darle a Enter y aceptar lo
+   que propone por defecto ("Set up and deploy?" → yes, el resto tal cual).
+   Importante: cuando pregunte "In which directory is your code located?"
+   confirma que es la carpeta actual ("./").
+6. Al terminar te da un enlace tipo https://protocolo-jane-algo.vercel.app
+   — esa es tu app, ya en vivo.
+7. Para futuras actualizaciones, repite "npx vercel" desde la misma
+   carpeta y ese mismo enlace se actualiza solo (con "npx vercel --prod"
+   lo publicas directamente en el dominio final en vez de una vista previa).
+
+
+PASO 2 — Instálala en el móvil
+--------------------------------
+- Android (Chrome): abre el enlace, toca el menú (⋮) y elige
+  "Instalar aplicación" o "Añadir a pantalla de inicio". Aparece un icono
+  propio y se abre sin barra de navegador, como cualquier app.
+- iPhone/iPad (Safari): abre el enlace, toca el botón de compartir (el
+  cuadrado con la flecha hacia arriba) y elige "Añadir a pantalla de
+  inicio". iOS no deja auto-instalar apps web desde el navegador; este
+  paso manual es la única forma, y funciona igual de bien.
+
+
+PASO 3 — Instálala en el ordenador
+-------------------------------------
+- Chrome / Edge: abre el enlace y busca el icono de instalar en la barra
+  de direcciones (un monitor con una flecha), o el menú ⋮ → "Instalar
+  Protocolo Jane". Se abre como una ventana propia, con su icono en el
+  dock/barra de tareas.
+
+
+Cosas importantes que debes saber
+------------------------------------
+- Tu progreso (sesiones marcadas, racha, XP) se guarda en el navegador o
+  la app de CADA dispositivo por separado. Si la instalas en el móvil y en
+  el ordenador, son dos progresos independientes — no se sincronizan entre
+  sí (para eso haría falta una cuenta con servidor, que es otro proyecto).
+- Si borras los datos de navegación / la caché de ese navegador, o
+  desinstalas la app, pierdes ese progreso. No hay copia de seguridad en
+  la nube.
+- Funciona sin conexión a internet una vez que la has abierto la primera
+  vez (queda guardada en el dispositivo).
+- Si más adelante quieres actualizar el contenido (nuevas sesiones,
+  cambios de texto), hazlo en esta misma carpeta y repite el paso 1 (vuelve
+  a arrastrarla a Netlify Drop, o "npx vercel" de nuevo si usaste Vercel) —
+  no toca tu progreso guardado, porque este vive en tu navegador, no en
+  el servidor.
+
+
+Archivos de la carpeta (por si tienes curiosidad)
+----------------------------------------------------
+index.html          — la app en sí
+style.css           — todos los estilos visuales
+app.js              — toda la lógica (progreso, racha, XP, lecciones)
+data.js             — el contenido de las 52 sesiones, extraído de tu plan
+manifest.json        — lo que hace que el navegador la reconozca como app
+                       instalable (nombre, icono, colores)
+service-worker.js   — lo que permite que funcione sin conexión
+icons/               — los iconos de la app en varios tamaños
