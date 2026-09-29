@@ -1,4 +1,4 @@
-var CACHE_NAME = 'jane-app-v3';
+var CACHE_NAME = 'jane-app-v4';
 var ASSETS = [
   './',
   './index.html',
